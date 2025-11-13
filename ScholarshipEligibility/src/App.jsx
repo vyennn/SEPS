@@ -67,41 +67,38 @@ const App = () => {
       />
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <header
-  style={{
-    background: "#63A361",
-    color: "white",
-    padding: "12px 20px",
-    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-  }}
->
-  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-    {/* Logo */}
-    <img
-      src="/assets/logo.png"
-      alt="Logo"
-      style={{
-        width: "50px",
-        height: "50px",
-        objectFit: "contain",
-        borderRadius: "5px", // optional rounded corners
-      }}
-    />
-
-    {/* Header Text */}
-    <h1
-      style={{
-        fontSize: "25px",
-        fontWeight: "bold",
-        margin: 0,
-        fontFamily: "sans-serif",
-        padding: "0px 0px",
-      }}
-    >
-      Scholarship Eligibility Prediction System
-    </h1>
-  </div>
-</header>
+        {/* ✅ NEW HEADER DESIGN (no dark green bar) */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "25px 30px 10px 30px",
+            borderBottom: "1px solid #e5e7eb",
+            background: "transparent",
+          }}
+        >
+          <img
+            src="/assets/logo.png"
+            alt="Logo"
+            style={{
+              width: "55px",
+              height: "55px",
+              objectFit: "contain",
+            }}
+          />
+          <h1
+            style={{
+              fontSize: "26px",
+              fontWeight: "bold",
+              color: "#2e7d32", // nice green text
+              fontFamily: "'Poppins', sans-serif",
+              margin: 0,
+            }}
+          >
+            Scholarship Eligibility Prediction System
+          </h1>
+        </div>
 
         <main style={{ flex: 1, overflow: "auto" }}>
           {currentPage === "dashboard" && (
