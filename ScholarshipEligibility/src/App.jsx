@@ -96,7 +96,7 @@ const App = () => {
         >
           <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
             <img
-              src="/assets/logo.png"git commit -"name sa changes"
+              src="/assets/logo.png"gi
               alt="Logo"
               style={{
                 width: "50px",
