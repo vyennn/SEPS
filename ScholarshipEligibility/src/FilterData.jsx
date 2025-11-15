@@ -29,7 +29,7 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
     reader.readAsArrayBuffer(file);
   };
 
-  // Filter students based on eligibility and save batch
+  // Filter students
   const handleFilter = () => {
     if (excelData.length === 0) {
       alert("⚠️ Please upload an Excel file first.");
@@ -49,27 +49,26 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
       const need = income <= 10000 ? "High" : income <= 25000 ? "Medium" : "Low";
 
       return {
-        name: `${student["First Name"]} ${student["Last Name"]}`,
+        id: student["School ID"],       // School ID
         gpa,
         income,
         need,
         status,
+        college: student.College || "-",
+        program: student.Program || "-", // Program
+        year: student["Year Level"] || "-"  // <-- match your Excel header
+
       };
     });
 
     setStudents(formatted);
 
-    // Save batch in App
-    if (addBatch) {
-      addBatch(batchFilter || `Batch ${batchCount}`, uploadedFileName, formatted);
-    }
+    if (addBatch) addBatch(batchFilter || `Batch ${batchCount}`, uploadedFileName, formatted);
 
-    // Increment batch count
     setBatchCount(batchCount + 1);
     setBatchFilter(`Batch ${batchCount + 1}`);
   };
 
-  // Clear list for new batch
   const handleClear = () => {
     setStudents([]);
     setExcelData([]);
@@ -79,10 +78,12 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#f8fafc", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <h2 style={{ fontSize: "24px", color: "#1f2937", marginBottom: 5 ,textAlign: "center",
-          fontFamily: "sans-serif" }}>
+      <h2 style={{ fontSize: "24px", color: "#1f2937", marginBottom: 5 ,textAlign: "center", fontFamily: "sans-serif" }}>
         FILTER DATA
       </h2>
+      <p style={{ color: "#666", marginBottom: 5, fontSize: 13 }}>
+        Upload, organize, and filter student records by batch
+      </p>
 
       <div style={{ background: "white", borderRadius: "10px", padding: "20px", boxShadow: "0 2px 5px rgba(0,0,0,0.1)", marginBottom: "20px" }}>
         {uploadedFileName && (
@@ -126,43 +127,38 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
             Add New Student
           </button>
         </div>
-      </div>
 
-      <div style={{ background: "white", borderRadius: "11px", padding: "20px", boxShadow: "0 2px 5px rgba(0,0,0,0.1)", overflowY: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
-          <thead>
-            <tr style={{ backgroundColor: "#059669", color: "white" }}>
-              <th style={{ padding: "10px", textAlign: "left" }}>Student Name</th>
-              <th style={{ padding: "10px", textAlign: "left" }}>GPA</th>
-              <th style={{ padding: "10px", textAlign: "left" }}>Family Income</th>
-              <th style={{ padding: "10px", textAlign: "left" }}>Financial Need</th>
-              <th style={{ padding: "10px", textAlign: "left" }}>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {students.length === 0 ? (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center", padding: "40px 10px" }}>
-                  <p style={{ fontSize: "14px", fontWeight: "600", color: "#666" }}>
-                    Upload a file and click Filter to see students' eligibility
-                  </p>
-                </td>
-              </tr>
-            ) : (
-              students.map((student, idx) => (
-                <tr key={idx}>
-                  <td style={{ padding: "10px" }}>{student.name}</td>
-                  <td style={{ padding: "10px" }}>{student.gpa}</td>
-                  <td style={{ padding: "10px" }}>₱{student.income}</td>
-                  <td style={{ padding: "10px" }}>{student.need}</td>
-                  <td style={{ padding: "10px", color: student.status === "Approved" ? "#059669" : "#ef4444", fontWeight: "600" }}>
-                    {student.status}
-                  </td>
+        {/* TABLE PREVIEW */}
+        {students.length > 0 && (
+          <div style={{ overflowX: "auto", marginTop: "15px" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
+              <thead>
+                <tr style={{ backgroundColor: "#059669", color: "white" }}>
+                  <th style={{ padding: 8 , textAlign: "center"}}>Student ID</th>
+                  <th style={{ padding: 8 , textAlign: "center"}}>College</th>
+                  <th style={{ padding: 8 , textAlign: "center"}}>Program</th>
+                  <th style={{ padding: 8 , textAlign: "center"}}>Year Level</th>
+                  <th style={{ padding: 8, textAlign: "center" }}>GPA</th>
+                  <th style={{ padding: 8, textAlign: "center" }}>Family Income</th>
+                  <th style={{ padding: 8, textAlign: "center" }}>Status</th>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {students.map((s, i) => (
+                  <tr key={i}>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.id}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.college}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.program}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.year}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.gpa}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>₱{s.income}</td>
+                    <td style={{ padding: 6, textAlign: "center" }}>{s.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

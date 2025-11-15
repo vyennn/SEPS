@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FiArrowLeft } from "react-icons/fi";
+import { FiHome, FiFilter, FiUserCheck, FiBarChart2 } from "react-icons/fi";
 
 // Profile picture URLs from the public/assets folder
 const profilePics = [
@@ -17,65 +18,80 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
   const [showPicOptions, setShowPicOptions] = useState(false);
 
   const menuItems = [
-    { id: "dashboard", label: "Dashboard" },
-    { id: "filter", label: "Filter Data" },
-    { id: "eligible", label: "Eligible Students by batch" },
-    { id: "analysis", label: "Data Analysis Part" },
+    { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
+    { id: "filter", label: "Filter Data", icon: <FiFilter /> },
+    { id: "eligible", label: "Eligible Students", icon: <FiUserCheck /> },
+    { id: "analysis", label: "Data Analysis", icon: <FiBarChart2 /> },
   ];
 
   return (
     <div
       style={{
-        width: "270px",
-        background: "#63A361",
+        width: "260px",
+        background: "linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%)",
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        boxShadow: "2px 0 10px rgba(0,0,0,0.1)",
+        borderRight: "1px solid #d0e6d0",
+        boxShadow: "2px 0 6px rgba(0,0,0,0.05)",
+        fontFamily: "'Poppins', sans-serif",
       }}
     >
-      {/* Profile Section */}
+      {/* === HEADER / PROFILE === */}
       <div
         style={{
-          padding: "20px",
-          borderBottom: "1px solid rgba(255,255,255,0.2)",
+          padding: "25px 15px",
+          borderBottom: "1px solid rgba(0,0,0,0.05)",
           textAlign: "center",
-          fontFamily: "Arial, sans-serif",
         }}
       >
         {/* Profile Picture */}
         <div
           style={{
-            width: "70px",
-            height: "70px",
+            width: "75px",
+            height: "75px",
             borderRadius: "50%",
             overflow: "hidden",
             margin: "0 auto 10px auto",
-            border: "2px solid white",
+            border: "2px solid #4caf50",
             cursor: "pointer",
+            transition: "0.3s",
           }}
           onClick={() => setShowPicOptions(!showPicOptions)}
         >
           <img
             src={selectedPic}
             alt="Profile"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "0.3s",
+            }}
           />
         </div>
 
-        <p style={{ color: "white", fontWeight: "bold", fontSize: "14px", margin: 0 }}>
+        <p
+          style={{
+            color: "#2f5d3f",
+            fontWeight: "600",
+            fontSize: "14px",
+            margin: "5px 0 0 0",
+            letterSpacing: "0.5px",
+          }}
+        >
           ADMIN
         </p>
 
-        {/* Profile Picture Choices */}
+        {/* Picture Selection */}
         {showPicOptions && (
           <div
             style={{
               display: "flex",
               justifyContent: "center",
-              gap: "10px",
-              marginTop: "10px",
               flexWrap: "wrap",
+              gap: "8px",
+              marginTop: "12px",
             }}
           >
             {profilePics.map((pic, idx) => (
@@ -86,18 +102,25 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
                   setShowPicOptions(false);
                 }}
                 style={{
-                  width: "40px",
-                  height: "40px",
+                  width: "38px",
+                  height: "38px",
                   borderRadius: "50%",
                   overflow: "hidden",
-                  border: selectedPic === pic ? "2px solid white" : "none",
+                  border:
+                    selectedPic === pic
+                      ? "2px solid #4caf50"
+                      : "1px solid #d1d5db",
                   cursor: "pointer",
                 }}
               >
                 <img
                   src={pic}
                   alt={`Profile ${idx}`}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
                 />
               </div>
             ))}
@@ -105,7 +128,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
         )}
       </div>
 
-      {/* Menu */}
+      {/* === MENU === */}
       <nav style={{ flex: 1, padding: "20px 0" }}>
         {menuItems.map((item) => (
           <button
@@ -115,29 +138,31 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
               width: "100%",
               display: "flex",
               alignItems: "center",
-              gap: "15px",
-              padding: "13px 20px",
-              color: "white",
-              border: "none",
+              gap: "12px",
+              padding: "12px 22px",
+              color: currentPage === item.id ? "#2f5d3f" : "#3b3b3b",
               background:
-                currentPage === item.id ? "rgba(255,255,255,0.2)" : "transparent",
+                currentPage === item.id ? "rgba(99,163,97,0.2)" : "transparent",
+              border: "none",
               cursor: "pointer",
-              fontSize: "15px",
-              borderLeft: currentPage === item.id ? "4px solid white" : "none",
-              fontFamily: "sans-serif",
+              fontSize: "14px",
+              fontWeight: currentPage === item.id ? "600" : "500",
+              transition: "0.3s",
+              textAlign: "left",
             }}
           >
-            <span style={{ fontSize: "16px" }}>{item.icon}</span>
+            <span style={{ fontSize: "17px" }}>{item.icon}</span>
             <span>{item.label}</span>
           </button>
         ))}
       </nav>
 
-      {/* Logout */}
+      {/* === LOGOUT === */}
       <div
         style={{
-          padding: "15px",
-          borderTop: "1px solid rgba(255,255,255,0.2)",
+          padding: "15px 20px",
+          borderTop: "1px solid rgba(0,0,0,0.05)",
+          backgroundColor: "rgba(255,255,255,0.4)",
         }}
       >
         <button
@@ -146,19 +171,22 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            gap: "10px",
-            padding: "12px 20px",
-            color: "white",
+            gap: "8px",
+            padding: "10px 15px",
+            color: "#2f5d3f",
             border: "none",
             background: "transparent",
             cursor: "pointer",
             fontSize: "13px",
-            fontWeight: "100",
-            fontFamily: "sans-serif"
+            fontWeight: "600",
+            borderRadius: "8px",
+            transition: "0.2s",
           }}
+          onMouseEnter={(e) => (e.target.style.background = "#e6f3e7")}
+          onMouseLeave={(e) => (e.target.style.background = "transparent")}
         >
-          <FiArrowLeft style={{ marginRight: "1px" }} />
-          <span style={{ fontSize: "16px" }}>Log Out</span>
+          <FiArrowLeft />
+          Log Out
         </button>
       </div>
     </div>
