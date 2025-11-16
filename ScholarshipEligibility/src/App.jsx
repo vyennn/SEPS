@@ -6,6 +6,7 @@ import FilterData from "./FilterData";
 import EligibleStudents from "./EligibleStudents";
 import DataAnalysis from "./DataAnalysis";
 import StudentForm from "./StudentForm";
+import BatchRecords from "./BatchRecords";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,6 +15,7 @@ const App = () => {
 
   const [students, setStudents] = useState([]);
   const [batches, setBatches] = useState([]);
+  const [currentBatchName, setCurrentBatchName] = useState(""); // Track active batch
 
   // Login
   const handleLogin = () => setIsLoggedIn(true);
@@ -53,28 +55,87 @@ const App = () => {
     };
 
     setBatches(prev => [...prev, newBatch]);
+    setCurrentBatchName(batchName); // Update current batch
   };
 
-  // Add student manually
   const handleStudentSubmit = (formData) => {
+    // Use the current batch name from FilterData
+    const batchName = currentBatchName || `Batch ${batches.length + 1}`;
+    const gpa = parseFloat(formData.gpa);
+    const income = parseInt(formData.parentIncome);
+  
+    const status =
+      (gpa <= 1.25 && income <= 40000) || (gpa <= 3.0 && income <= 25000)
+        ? "Approved"
+        : "Rejected";
+  
     const newStudent = {
+      id: formData.schoolId,
       name: `${formData.firstName} ${formData.lastName}`,
-      gpa: parseFloat(formData.gpa),
-      income: parseInt(formData.parentIncome),
-      need: "High",
-      status:
-        (parseFloat(formData.gpa) <= 1.25 &&
-          parseInt(formData.parentIncome) <= 40000) ||
-        (parseFloat(formData.gpa) <= 3.0 &&
-          parseInt(formData.parentIncome) <= 25000)
-          ? "Approved"
-          : "Rejected",
+      gpa,
+      income,
+      need: income <= 10000 ? "High" : income <= 25000 ? "Medium" : "Low",
+      status,
+      college: formData.college,
+      program: formData.program,
+      year: formData.yearLevel,
+      batch: batchName,
     };
-
+  
+    // Add to students state
     setStudents(prev => [...prev, newStudent]);
+  
+    // **Update existing batch if exists, else create new**
+    setBatches(prev => {
+      const batchIndex = prev.findIndex(b => b.name === batchName);
+      if (batchIndex >= 0) {
+        // Update existing batch
+        const updatedBatch = { ...prev[batchIndex] };
+        updatedBatch.students = [...updatedBatch.students, newStudent];
+        updatedBatch.total = updatedBatch.students.length;
+        updatedBatch.approved = updatedBatch.students.filter(s => s.status === "Approved").length;
+        updatedBatch.rejected = updatedBatch.students.filter(s => s.status === "Rejected").length;
+        updatedBatch.rate =
+          updatedBatch.students.length > 0
+            ? `${Math.round((updatedBatch.approved / updatedBatch.students.length) * 100)}%`
+            : "0%";
+        updatedBatch.status = updatedBatch.approved > 0 ? "Completed" : "Processing";
+  
+        const newBatches = [...prev];
+        newBatches[batchIndex] = updatedBatch;
+        return newBatches;
+      } else {
+        // Create new batch if it doesn't exist
+        const now = new Date();
+        return [
+          ...prev,
+          {
+            name: batchName,
+            fileName: "Manual Entry",
+            students: [newStudent],
+            total: 1,
+            approved: status === "Approved" ? 1 : 0,
+            rejected: status === "Rejected" ? 1 : 0,
+            rate: status === "Approved" ? "100%" : "0%",
+            status: "Completed",
+            date: now.toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+            }),
+            time: now.toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ];
+      }
+    });
+  
     setShowForm(false);
   };
-
+  
+  
   if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
 
   return (
@@ -92,6 +153,9 @@ const App = () => {
             color: "white",
             padding: "12px 20px",
             boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
@@ -120,16 +184,19 @@ const App = () => {
             <FilterData
               students={students}
               setStudents={setStudents}
-              setShowForm={setShowForm}
               addBatch={addBatch}
               batchNumber={batches.length + 1}
-            />
+              setBatches={setBatches}
+              currentBatchName={currentBatchName}
+              setCurrentBatchName={setCurrentBatchName}
+              onStudentAdd={handleStudentSubmit}
+            />          
           )}
 
-          {/* ⭐ Pass batches to EligibleStudents */}
-          {currentPage === "eligible" && <EligibleStudents batches={batches} />}
+          {currentPage === "eligible" && (
+            <EligibleStudents batches={batches} />
+          )}
 
-          {/* ⭐ Pass batches to DataAnalysis */}
           {currentPage === "analysis" && <DataAnalysis batches={batches} />}
         </main>
       </div>

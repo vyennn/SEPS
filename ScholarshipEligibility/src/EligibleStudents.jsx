@@ -3,28 +3,37 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const EligibleStudents = ({ batches }) => {
-  const [selectedBatch, setSelectedBatch] = useState("All Batches");
-  const [searchTerm, setSearchTerm] = useState("");
-  const printRef = useRef();
-
+const EligibleStudents = ({ batches = [] }) => {
+  // Get all students from batches only
   const allStudents = batches.flatMap(batch =>
     batch.students.map(student => ({ ...student, batch: batch.name }))
   );
 
   const uniqueBatches = ["All Batches", ...batches.map(b => b.name)];
 
+  const [selectedBatch, setSelectedBatch] = useState("All Batches");
+  const [searchTerm, setSearchTerm] = useState("");
+  const printRef = useRef();
+
+  // Filter students by batch
   const batchFiltered =
     selectedBatch === "All Batches"
       ? allStudents
       : allStudents.filter(s => s.batch === selectedBatch);
 
+  // Only approved students
   const eligibleStudents = batchFiltered.filter(s => s.status === "Approved");
 
-  const searched = eligibleStudents.filter(s =>
-    s.id.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Search by ID or Name
+  const searched = eligibleStudents.filter(s => {
+    const term = searchTerm.toLowerCase();
+    return (
+      (s.id && s.id.toLowerCase().includes(term)) ||
+      (s.name && s.name.toLowerCase().includes(term))
+    );
+  });
 
+  // Sort if compositeScore exists
   const sortedStudents = [...searched].sort(
     (a, b) => (b.compositeScore || 0) - (a.compositeScore || 0)
   );
@@ -54,7 +63,7 @@ const EligibleStudents = ({ batches }) => {
     doc.text(`Eligible Students - ${selectedBatch}`, 14, 15);
     doc.autoTable({
       head: [
-        ["Rank", "School ID", "College","Program", "Year", "GPA", "Family Income", "Financial Need", "Score", "Status"],
+        ["Rank", "Student ID", "College","Program", "Year", "GPA", "Family Income", "Financial Need", "Score", "Status"],
       ],
       body: tableRows,
       startY: 20,
@@ -113,7 +122,7 @@ const EligibleStudents = ({ batches }) => {
             <label style={{ display: "block", fontWeight: "bold", color: "#374151", marginBottom: 8, fontSize: 13 }}>
               Search Student
             </label>
-            <input type="text" placeholder="Enter School ID..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: "100%", padding: 8, border: "1px solid #059669", borderRadius: 5, fontSize: 12 }}/>
+            <input type="text" placeholder="Enter School ID or Name..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} style={{ width: "100%", padding: 8, border: "1px solid #059669", borderRadius: 5, fontSize: 12 }}/>
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap" }}>
@@ -138,17 +147,17 @@ const EligibleStudents = ({ batches }) => {
           <tbody>
             {sortedStudents.length === 0 ? (
               <tr>
-                <td colSpan="9" style={{ textAlign: "center", padding: 40 }}>No eligible students found.</td>
+                <td colSpan="6" style={{ textAlign: "center", padding: 40 }}>No eligible students found.</td>
               </tr>
             ) : (
               sortedStudents.map((s, i) => (
                 <tr key={i}>
                   <td style={{ padding: 8 , textAlign: "center" }}>{i + 1}</td>
-                  <td style={{ padding: 8, textAlign: "center"  }}>{s.id}</td>
-                  <td style={{ padding: 8, textAlign: "center"  }}>{s.college}</td>
-                  <td style={{ padding: 8, textAlign: "center"  }}>{s.program}</td>
-                  <td style={{ padding: 8, textAlign: "center"  }}>{s.year}</td>
-                  <td style={{ padding: 8, textAlign: "center"  }}>{s.status}</td>
+                  <td style={{ padding: 8, textAlign: "center" }}>{s.id}</td>
+                  <td style={{ padding: 8, textAlign: "center" }}>{s.college}</td>
+                  <td style={{ padding: 8, textAlign: "center" }}>{s.program}</td>
+                  <td style={{ padding: 8, textAlign: "center" }}>{s.year}</td>
+                  <td style={{ padding: 8, textAlign: "center" }}>{s.status}</td>
                 </tr>
               ))
             )}

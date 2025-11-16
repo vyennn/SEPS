@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-import { FiHome, FiFilter, FiUserCheck, FiBarChart2 } from "react-icons/fi";
+import { FiArrowLeft, FiHome, FiFilter, FiUserCheck, FiBarChart2, FiDatabase } from "react-icons/fi";
 
 // Profile picture URLs from the public/assets folder
 const profilePics = [
@@ -29,12 +28,14 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
       style={{
         width: "260px",
         background: "linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%)",
-        minHeight: "100vh",
+        height: "100vh",
         display: "flex",
         flexDirection: "column",
         borderRight: "1px solid #d0e6d0",
         boxShadow: "2px 0 6px rgba(0,0,0,0.05)",
         fontFamily: "'Poppins', sans-serif",
+        position: "sticky",
+        top: 0,
       }}
     >
       {/* === HEADER / PROFILE === */}
@@ -43,6 +44,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
           padding: "25px 15px",
           borderBottom: "1px solid rgba(0,0,0,0.05)",
           textAlign: "center",
+          flexShrink: 0,
         }}
       >
         {/* Profile Picture */}
@@ -129,7 +131,14 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
       </div>
 
       {/* === MENU === */}
-      <nav style={{ flex: 1, padding: "20px 0" }}>
+      <nav 
+        style={{ 
+          flex: 1, 
+          padding: "20px 0",
+          overflowY: "auto",
+          overflowX: "hidden"
+        }}
+      >
         {menuItems.map((item) => (
           <button
             key={item.id}
@@ -163,6 +172,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
           padding: "15px 20px",
           borderTop: "1px solid rgba(0,0,0,0.05)",
           backgroundColor: "rgba(255,255,255,0.4)",
+          flexShrink: 0,
         }}
       >
         <button

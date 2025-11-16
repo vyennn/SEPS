@@ -20,6 +20,8 @@ const StudentForm = ({ onClose, onSubmit }) => {
     barangay: "",
     city: "",
     province: "",
+    gpa: "",
+    parentIncome: "",
     fatherFirstName: "",
     fatherMiddleName: "",
     fatherLastName: "",
@@ -31,7 +33,6 @@ const StudentForm = ({ onClose, onSubmit }) => {
     motherSuffix: "",
     motherOccupation: "",
   });
-
   // College and corresponding programs
   const programOptions = {
     CCIS: ["BSIT", "BSIS", "BSCS"],
@@ -93,6 +94,7 @@ const StudentForm = ({ onClose, onSubmit }) => {
         zIndex: 1000,
         padding: "20px",
       }}
+      
     >
       <div
         style={{
@@ -110,10 +112,12 @@ const StudentForm = ({ onClose, onSubmit }) => {
             background: "#63A361",
             color: "white",
             padding: "15px 20px",
-
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            position: "sticky",   // <-- add this
+            top: 0,               // <-- stick to the top
+            zIndex: 10,           // <-- stay above form content
           }}
         >
           <h3 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>
@@ -169,7 +173,7 @@ const StudentForm = ({ onClose, onSubmit }) => {
           </div>
 
           {/* Second Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
             <div>
               <label style={labelStyle}>School ID Number *</label>
               <input name="schoolId" placeholder="221-02399" value={formData.schoolId} onChange={handleChange} style={inputStyle} required />
@@ -210,10 +214,25 @@ const StudentForm = ({ onClose, onSubmit }) => {
               <label style={labelStyle}>Year Level *</label>
               <input name="yearLevel" placeholder="1" value={formData.yearLevel} onChange={handleChange} style={inputStyle} required />
             </div>
+            <div>
+              <label style={labelStyle}>GPA *</label>
+              <input
+                type="number"
+                step="0.01"
+                placeholder="1.75"
+                name="gpa"
+                value={formData.gpa || ""}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
+            </div>
+
           </div>
+          
 
           {/* Third Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
             <div>
               <label style={labelStyle}>Birthdate *</label>
               <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} style={inputStyle} required />
@@ -239,6 +258,19 @@ const StudentForm = ({ onClose, onSubmit }) => {
                 <option value="Widowed">Widowed</option>
               </select>
             </div>
+            <div>
+              <label style={labelStyle}>Monthly Family Income (₱) *</label>
+              <input
+                type="number"
+                placeholder="15000"
+                name="parentIncome"
+                value={formData.parentIncome || ""}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
+            </div>
+            
           </div>
 
           {/* Fourth Layer */}
@@ -251,7 +283,10 @@ const StudentForm = ({ onClose, onSubmit }) => {
               <label style={labelStyle}>Contact Number *</label>
               <input name="contactNumber" placeholder="09123456789" value={formData.contactNumber} onChange={handleChange} style={inputStyle} required />
             </div>
+            
           </div>
+
+          
 
           {/* HOME ADDRESS */}
           <h4

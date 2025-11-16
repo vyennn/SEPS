@@ -1,11 +1,13 @@
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import StudentForm from "./StudentForm";
 
-const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber }) => {
-  const [batchFilter, setBatchFilter] = useState(`Batch ${batchNumber}`);
+const FilterData = ({ students, setStudents, addBatch, batchNumber, currentBatchName, setCurrentBatchName, onStudentAdd }) => {
+  const [batchFilter, setBatchFilter] = useState(currentBatchName || `Batch ${batchNumber}`);
   const [excelData, setExcelData] = useState([]);
   const [uploadedFileName, setUploadedFileName] = useState("");
   const [batchCount, setBatchCount] = useState(batchNumber);
+  const [showForm, setShowForm] = useState(false);
 
   // Upload Excel file
   const handleFileUpload = (e) => {
@@ -13,7 +15,9 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
     if (!file) return;
 
     setUploadedFileName(file.name);
-    setBatchFilter(`Batch ${batchCount}`);
+    const newBatchName = `Batch ${batchCount}`;
+    setBatchFilter(newBatchName);
+    setCurrentBatchName(newBatchName); // Update the current batch in App
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -29,7 +33,7 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
     reader.readAsArrayBuffer(file);
   };
 
-  // Filter students
+  // Filter students from Excel
   const handleFilter = () => {
     if (excelData.length === 0) {
       alert("⚠️ Please upload an Excel file first.");
@@ -46,34 +50,36 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
           ? "Approved"
           : "Rejected";
 
-      const need = income <= 10000 ? "High" : income <= 25000 ? "Medium" : "Low";
-
       return {
-        id: student["School ID"],       // School ID
+        id: student["School ID"],
         gpa,
         income,
-        need,
+        need: income <= 10000 ? "High" : income <= 25000 ? "Medium" : "Low",
         status,
         college: student.College || "-",
-        program: student.Program || "-", // Program
-        year: student["Year Level"] || "-"  // <-- match your Excel header
-
+        program: student.Program || "-",
+        year: student["Year Level"] || "-",
       };
     });
 
     setStudents(formatted);
 
-    if (addBatch) addBatch(batchFilter || `Batch ${batchCount}`, uploadedFileName, formatted);
-
+    if (addBatch) {
+      const batchName = batchFilter || `Batch ${batchCount}`;
+      addBatch(batchName, uploadedFileName, formatted);
+      setCurrentBatchName(batchName); // Update current batch
+    }
+    
     setBatchCount(batchCount + 1);
     setBatchFilter(`Batch ${batchCount + 1}`);
   };
-
+  
   const handleClear = () => {
     setStudents([]);
     setExcelData([]);
     setBatchFilter("");
     setUploadedFileName("");
+    setCurrentBatchName(""); // Clear current batch
   };
 
   return (
@@ -103,7 +109,10 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
             type="text"
             placeholder="Enter batch num"
             value={batchFilter}
-            onChange={(e) => setBatchFilter(e.target.value)}
+            onChange={(e) => {
+              setBatchFilter(e.target.value);
+              setCurrentBatchName(e.target.value); // Update current batch when manually changed
+            }}
             style={{ padding: "6px 10px", border: "1px solid #d1d5db", borderRadius: "5px", outline: "none", fontSize: "12px", width: "150px" }}
           />
 
@@ -128,7 +137,7 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
           </button>
         </div>
 
-        {/* TABLE PREVIEW */}
+        {/* STUDENT TABLE */}
         {students.length > 0 && (
           <div style={{ overflowX: "auto", marginTop: "15px" }}>
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
@@ -160,6 +169,17 @@ const FilterData = ({ students, setStudents, setShowForm, addBatch, batchNumber 
           </div>
         )}
       </div>
+
+      {/* STUDENT FORM MODAL */}
+      {showForm && (
+        <StudentForm
+          onClose={() => setShowForm(false)}
+          onSubmit={(data) => {
+            onStudentAdd(data); // Use App.jsx's handleStudentSubmit
+            setShowForm(false);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -66,15 +66,26 @@ const DataAnalysis = ({ batches = [] }) => {
   });
 
   return (
-    <div style={{ padding: 20, backgroundColor: "#f8fafc", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <h2 style={{ fontSize: "24px",
+    <div style={{ 
+      padding: 20, 
+      backgroundColor: "#f8fafc", 
+      flex: 1, 
+      display: "flex", 
+      flexDirection: "column", 
+      overflow: "hidden" 
+      }}>
+      <h2 style={{ 
+        fontSize: "24px",
           color: "#1f2937",
           marginBottom: "5px",
           textAlign: "center",
           fontFamily: "sans-serif",}}>
         DATA ANALYSIS
       </h2>
-      <p style={{ color: "#666", marginBottom: 5, fontSize: 13 }}>
+      <p style={{ 
+        color: "#666", 
+        marginBottom: 5, 
+        fontSize: 13 }}>
         Comprehensive analysis of scholarship eligibility data
       </p>
 

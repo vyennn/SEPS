@@ -198,7 +198,11 @@ const LoginPage = ({ onLogin }) => {
           >
             SEPS
           </h1>
-          <p style={{ fontSize: "15px", lineHeight: "1.6", maxWidth: "300px" }}>
+          <p style={{ 
+            fontSize: "15px", 
+            lineHeight: "1.6", 
+            maxWidth: "300px" 
+            }}>
             Log in and be part of the system that makes scholarship prediction
             easier for students of Caraga State University.
           </p>
