@@ -4,32 +4,227 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
 const BatchRecords = ({ batches = [] }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  
   const [selectedBatch, setSelectedBatch] = useState("All Batches");
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const [searchTerm, setSearchTerm] = useState("");
   const printRef = useRef();
 
-  // Get unique batch names
-  const uniqueBatches = ["All Batches", ...batches.map(b => b.name)];
+  // Handle login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setLoginError("");
+    
+    if (username === "admin" && password === "admin123") {
+      setIsAuthenticated(true);
+    } else {
+      setLoginError("Invalid username or password. Please try again.");
+      setPassword("");
+    }
+  };
 
-  // Get all students from all batches
+  // If not authenticated, show login screen
+  if (!isAuthenticated) {
+    return (
+      <div style={{ 
+        padding: 20, 
+        flex: 1, 
+        display: "flex", 
+        alignItems: "center", 
+        justifyContent: "center",
+        backgroundColor: "#f3f4f6"
+      }}>
+        <div style={{
+          backgroundColor: "white",
+          borderRadius: 12,
+          padding: 30,
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          maxWidth: 450,
+          width: "100%",
+          border: "2px solid #63A361"
+        }}>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: 20 }}>
+            <div style={{
+              width: 60,
+              height: 60,
+              backgroundColor: "#63A361",
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 15px",
+              fontSize: 30
+            }}>
+              🔒
+            </div>
+            <h2 style={{ 
+              fontSize: 20, 
+              color: "#1f2937", 
+              marginBottom: 1,
+              fontFamily: "sans-serif"
+            }}>
+              Authentication Required
+            </h2>
+          </div>
+
+          {/* Security Notice */}
+          <div style={{
+            backgroundColor: "#fef3c7",
+            border: "1px solid #fbbf24",
+            borderRadius: 8,
+            padding: 12,
+            marginBottom: 20
+          }}>
+            <p style={{
+              color: "#92400e",
+              fontSize: 11,
+              lineHeight: 1.5,
+              margin: 0,
+              textAlign: "center"
+            }}>
+              <strong>⚠️ Security Notice:</strong> Need to log in again because this section contains sensitive personal information. Access is restricted to authorized personnel only.
+            </p>
+          </div>
+
+          {/* Login Form */}
+          <div>
+            <div style={{ marginBottom: 15 }}>
+              <label style={{
+                display: "block",
+                fontWeight: "600",
+                color: "#374151",
+                marginBottom: 6,
+                fontSize: 13
+              }}>
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin(e)}
+                placeholder="Enter username"
+                style={{
+                  width: "100%",
+                  padding: 10,
+                  border: "1px solid #d1d5db",
+                  borderRadius: 6,
+                  fontSize: 13,
+                  boxSizing: "border-box"
+                }}
+              />
+            </div>
+
+            <div style={{ marginBottom: 20 }}>
+              <label style={{
+                display: "block",
+                fontWeight: "600",
+                color: "#374151",
+                marginBottom: 6,
+                fontSize: 13
+              }}>
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleLogin(e)}
+                placeholder="Enter password"
+                style={{
+                  width: "100%",
+                  padding: 10,
+                  border: "1px solid #d1d5db",
+                  borderRadius: 6,
+                  fontSize: 13,
+                  boxSizing: "border-box"
+                }}
+              />
+            </div>
+
+            {loginError && (
+              <div style={{
+                backgroundColor: "#fee2e2",
+                border: "1px solid #ef4444",
+                borderRadius: 6,
+                padding: 10,
+                marginBottom: 15,
+                textAlign: "center"
+              }}>
+                <p style={{
+                  color: "#991b1b",
+                  fontSize: 12,
+                  margin: 0
+                }}>
+                  ❌ {loginError}
+                </p>
+              </div>
+            )}
+
+            <button
+              onClick={handleLogin}
+              style={{
+                width: "100%",
+                backgroundColor: "#63A361",
+                color: "white",
+                border: "none",
+                padding: 10,
+                borderRadius: 6,
+                fontSize: 14,
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "background-color 0.2s"
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = "#527f51"}
+              onMouseOut={(e) => e.target.style.backgroundColor = "#63A361"}
+            >
+              Login to Access Records
+            </button>
+          </div>
+
+          {/* Demo Credentials Info */}
+          <div style={{
+            marginTop: 15,
+            padding: 10,
+            backgroundColor: "#f3f4f6",
+            borderRadius: 6,
+            textAlign: "center"
+          }}>
+            <p style={{
+              color: "#6b7280",
+              fontSize: 11,
+              margin: 0,
+              lineHeight: 1.4
+            }}>
+              <strong>Demo:</strong> admin / admin123
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Original BatchRecords component logic (after authentication)
+  const uniqueBatches = ["All Batches", ...batches.map(b => b.name)];
   const allStudents = batches.flatMap(batch =>
     batch.students.map(student => ({ ...student, batch: batch.name }))
   );
 
-  // Filter by batch
   const batchFiltered =
     selectedBatch === "All Batches"
       ? allStudents
       : allStudents.filter(s => s.batch === selectedBatch);
 
-  // Filter by status
   const statusFiltered =
     selectedStatus === "All Status"
       ? batchFiltered
       : batchFiltered.filter(s => s.status === selectedStatus);
 
-  // Search by ID, Name, or other fields
   const searched = statusFiltered.filter(s => {
     const term = searchTerm.toLowerCase();
     return (
@@ -40,12 +235,10 @@ const BatchRecords = ({ batches = [] }) => {
     );
   });
 
-  // Statistics
   const totalStudents = searched.length;
   const approvedCount = searched.filter(s => s.status === "Approved").length;
   const rejectedCount = searched.filter(s => s.status === "Rejected").length;
 
-  // Export to Excel
   const exportExcel = () => {
     const exportData = searched.map(s => ({
       "Batch": s.batch,
@@ -88,7 +281,6 @@ const BatchRecords = ({ batches = [] }) => {
     XLSX.writeFile(workbook, `Batch_Records_${selectedBatch}.xlsx`);
   };
 
-  // Export to PDF
   const exportPDF = () => {
     const doc = new jsPDF("landscape");
     const tableRows = searched.map((s, i) => [
@@ -116,7 +308,6 @@ const BatchRecords = ({ batches = [] }) => {
     doc.save(`Batch_Records_${selectedBatch}.pdf`);
   };
 
-  // Print
   const handlePrint = () => {
     const printContents = printRef.current.innerHTML;
     const newWindow = window.open("", "", "width=1200,height=800");
@@ -143,38 +334,18 @@ const BatchRecords = ({ batches = [] }) => {
   };
 
   return (
-    <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-      <h2 style={{ fontSize: 24, color: "#1f2937", marginBottom: 5, textAlign: "center", fontFamily: "sans-serif" }}>
-        BATCH RECORDS
-      </h2>
-      <p style={{ color: "#666", marginBottom: 15, fontSize: 13 }}>
+    <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", maxWidth: "100%" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
+        <h2 style={{ fontSize: 24, color: "#1f2937", textAlign: "center", fontFamily: "sans-serif", flex: 1 }}>
+          BATCH RECORDS
+        </h2>
+      </div>
+      <p style={{ color: "#666", marginBottom: 10,fontSize: 13 }}>
         View, search, and export complete student records by batch
       </p>
 
-      {/* Statistics Panel */}
-      <div style={{ backgroundColor: "#dbeafe", borderRadius: "8px", padding: "15px", marginBottom: "15px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "15px" }}>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Selected Batch</p>
-            <p style={{ fontSize: "16px", fontWeight: "bold", color: "#3b82f6", margin: "5px 0 0 0" }}>{selectedBatch}</p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Total Students</p>
-            <p style={{ fontSize: "16px", fontWeight: "bold", color: "#3b82f6", margin: "5px 0 0 0" }}>{totalStudents}</p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Approved</p>
-            <p style={{ fontSize: "16px", fontWeight: "bold", color: "#059669", margin: "5px 0 0 0" }}>{approvedCount}</p>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Rejected</p>
-            <p style={{ fontSize: "16px", fontWeight: "bold", color: "#ef4444", margin: "5px 0 0 0" }}>{rejectedCount}</p>
-          </div>
-        </div>
-      </div>
 
-      {/* Filters and Controls */}
-      <div style={{ background: "white", borderRadius: 10, padding: 20, boxShadow: "0 2px 5px rgba(0,0,0,0.1)", marginBottom: 15, border: "2px solid #63A361" }}>
+      <div style={{ background: "white", borderRadius: 10, padding: 20, boxShadow: "0 2px 5px rgba(0,0,0,0.1)", marginBottom: 15, border: "2px solid #63A361", minWidth: 0 }}>
         <div style={{ display: "flex", gap: 15, flexWrap: "wrap", marginBottom: 15 }}>
           <div style={{ flex: 1, minWidth: 180 }}>
             <label style={{ display: "block", fontWeight: "bold", color: "#374151", marginBottom: 8, fontSize: 13 }}>
@@ -212,23 +383,20 @@ const BatchRecords = ({ batches = [] }) => {
 
         <div style={{ display: "flex", justifyContent: "flex-end", gap: 10, flexWrap: "wrap" }}>
           <button onClick={exportExcel} style={{ background: "#059669", color: "white", border: "none", padding: "8px 15px", borderRadius: 6, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-            📊 Export Excel
+            Export Excel
           </button>
-          <button onClick={exportPDF} style={{ background: "#ef4444", color: "white", border: "none", padding: "8px 15px", borderRadius: 6, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-            📄 Export PDF
-          </button>
+          
           <button onClick={handlePrint} style={{ background: "#3b82f6", color: "white", border: "none", padding: "8px 15px", borderRadius: 6, cursor: "pointer", fontSize: 12, fontWeight: 600 }}>
-            🖨️ Print
+           Print
           </button>
         </div>
       </div>
 
-      {/* Student Records Table */}
-      <div ref={printRef} style={{ background: "white", borderRadius: 10, padding: 20, boxShadow: "0 2px 5px rgba(0,0,0,0.1)", flex: 1, overflow: "auto" }}>
-        <h3 style={{ color: "black", marginBottom: 15 }}>Student Records - {selectedBatch}</h3>
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11 }}>
-            <thead>
+      <div style={{ background: "white", borderRadius: 10, padding: 20, boxShadow: "0 2px 5px rgba(0,0,0,0.1)", flex: 1, overflow: "hidden", display: "flex", flexDirection: "column", minWidth: 0 }}>
+        <h3 style={{ color: "black", marginBottom: 15, flexShrink: 0 }}>Student Records - {selectedBatch}</h3>
+        <div ref={printRef} style={{ flex: 1, overflow: "auto", minWidth: 0 }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 11, minWidth: "1000px" }}>
+            <thead style={{ position: "sticky", top: 0, zIndex: 1 }}>
               <tr style={{ backgroundColor: "#63A361", color: "white" }}>
                 <th style={{ padding: 8, minWidth: 40 }}>#</th>
                 <th style={{ padding: 8, minWidth: 100 }}>Batch</th>

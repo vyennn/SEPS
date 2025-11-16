@@ -50,8 +50,19 @@ const FilterData = ({ students, setStudents, addBatch, batchNumber, currentBatch
           ? "Approved"
           : "Rejected";
 
+      // Create full name from Excel columns
+      const firstName = student["First Name"] || "";
+      const middleName = student["Middle Name"] || "";
+      const lastName = student["Last Name"] || "";
+      const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
+
       return {
         id: student["School ID"],
+        name: fullName, // Add this line
+        firstName: student["First Name"] || "-",
+        middleName: student["Middle Name"] || "-",
+        lastName: student["Last Name"] || "-",
+        nameSuffix: student["Name Suffix"] || "-",
         gpa,
         income,
         need: income <= 10000 ? "High" : income <= 25000 ? "Medium" : "Low",
@@ -59,6 +70,26 @@ const FilterData = ({ students, setStudents, addBatch, batchNumber, currentBatch
         college: student.College || "-",
         program: student.Program || "-",
         year: student["Year Level"] || "-",
+        birthdate: student.Birthdate || "-",
+        age: student.Age || "-",
+        sex: student.Sex || "-",
+        maritalStatus: student["Marital Status"] || "-",
+        email: student.Email || "-",
+        contactNumber: student["Contact Number"] || "-",
+        purokStreet: student["Purok/Street"] || "-",
+        barangay: student.Barangay || "-",
+        city: student.City || "-",
+        province: student.Province || "-",
+        fatherFirstName: student["Father First Name"] || "-",
+        fatherMiddleName: student["Father Middle Name"] || "-",
+        fatherLastName: student["Father Last Name"] || "-",
+        fatherNameSuffix: student["Father Name Suffix"] || "-",
+        fatherOccupation: student["Father Occupation"] || "-",
+        motherFirstName: student["Mother First Name"] || "-",
+        motherMiddleName: student["Mother Middle Name"] || "-",
+        motherLastName: student["Mother Last Name"] || "-",
+        motherNameSuffix: student["Mother Name Suffix"] || "-",
+        motherOccupation: student["Mother Occupation"] || "-",
       };
     });
 

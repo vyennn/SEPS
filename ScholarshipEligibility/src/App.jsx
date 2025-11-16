@@ -139,14 +139,14 @@ const App = () => {
   if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8fafc" }}>
+    <div style={{ display: "flex", height: "100vh", backgroundColor: "#f8fafc", overflow: "hidden" }}>
       <Sidebar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         onLogout={handleLogout}
       />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, height: "100vh", overflow: "hidden" }}>
         <header
           style={{
             background: "#63A361",
@@ -195,6 +195,10 @@ const App = () => {
 
           {currentPage === "eligible" && (
             <EligibleStudents batches={batches} />
+          )}
+
+          {currentPage === "records" && (
+            <BatchRecords batches={batches} />
           )}
 
           {currentPage === "analysis" && <DataAnalysis batches={batches} />}

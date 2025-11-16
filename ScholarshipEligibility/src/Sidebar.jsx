@@ -20,6 +20,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
     { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
     { id: "filter", label: "Filter Data", icon: <FiFilter /> },
     { id: "eligible", label: "Eligible Students", icon: <FiUserCheck /> },
+    { id: "records", label: "Batch Records", icon: <FiDatabase /> },
     { id: "analysis", label: "Data Analysis", icon: <FiBarChart2 /> },
   ];
 
@@ -27,6 +28,8 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
     <div
       style={{
         width: "260px",
+        minWidth: "260px",
+        maxWidth: "260px",
         background: "linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%)",
         height: "100vh",
         display: "flex",
@@ -34,8 +37,7 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
         borderRight: "1px solid #d0e6d0",
         boxShadow: "2px 0 6px rgba(0,0,0,0.05)",
         fontFamily: "'Poppins', sans-serif",
-        position: "sticky",
-        top: 0,
+        flexShrink: 0,
       }}
     >
       {/* === HEADER / PROFILE === */}

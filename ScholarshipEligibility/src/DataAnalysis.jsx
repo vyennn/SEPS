@@ -90,10 +90,10 @@ const DataAnalysis = ({ batches = [] }) => {
       </p>
 
       {totalStudents === 0 ? (
-        <div style={{ background: "linear-gradient(135deg, #fef3c7, #f59e0b)", border: "2px solid #f59e0b", borderRadius: 10, padding: 40, textAlign: "center", boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}>
+        <div style={{ background: "linear-gradient(135deg,rgb(33, 150, 53),rgba(26, 107, 53, 0.44))", border: "#4caf50", borderRadius: 10, padding: 40, textAlign: "center", boxShadow: "0 5px 15px rgba(0,0,0,0.1)" }}>
           <span style={{ fontSize: 48, display: "block", marginBottom: 15 }}>📊</span>
-          <h3 style={{ fontSize: 18, fontWeight: "bold", color: "#92400e", marginBottom: 8 }}>No Data Available</h3>
-          <p style={{ color: "#92400e", fontSize: 13 }}>
+          <h3 style={{ fontSize: 18, fontWeight: "bold", color: "white", marginBottom: 8 }}>No Data Available</h3>
+          <p style={{ color: "white", fontSize: 13 }}>
             Add students to the system to view comprehensive data analysis and statistics.
           </p>
         </div>
