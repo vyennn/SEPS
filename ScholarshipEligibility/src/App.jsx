@@ -26,8 +26,8 @@ const App = () => {
 
   // Save batch + date & time
   const addBatch = (batchName, fileName, studentList) => {
-    const approved = studentList.filter(s => s.status === "Approved").length;
-    const rejected = studentList.filter(s => s.status === "Rejected").length;
+    const approved = studentList.filter((s) => s.status === "Approved").length;
+    const rejected = studentList.filter((s) => s.status === "Rejected").length;
 
     const now = new Date();
 
@@ -54,7 +54,7 @@ const App = () => {
       }),
     };
 
-    setBatches(prev => [...prev, newBatch]);
+    setBatches((prev) => [...prev, newBatch]);
     setCurrentBatchName(batchName); // Update current batch
   };
 
@@ -63,12 +63,12 @@ const App = () => {
     const batchName = currentBatchName || `Batch ${batches.length + 1}`;
     const gpa = parseFloat(formData.gpa);
     const income = parseInt(formData.parentIncome);
-  
+
     const status =
       (gpa <= 1.25 && income <= 40000) || (gpa <= 3.0 && income <= 25000)
         ? "Approved"
         : "Rejected";
-  
+
     const newStudent = {
       id: formData.schoolId,
       name: `${formData.firstName} ${formData.lastName}`,
@@ -81,26 +81,33 @@ const App = () => {
       year: formData.yearLevel,
       batch: batchName,
     };
-  
+
     // Add to students state
-    setStudents(prev => [...prev, newStudent]);
-  
+    setStudents((prev) => [...prev, newStudent]);
+
     // **Update existing batch if exists, else create new**
-    setBatches(prev => {
-      const batchIndex = prev.findIndex(b => b.name === batchName);
+    setBatches((prev) => {
+      const batchIndex = prev.findIndex((b) => b.name === batchName);
       if (batchIndex >= 0) {
         // Update existing batch
         const updatedBatch = { ...prev[batchIndex] };
         updatedBatch.students = [...updatedBatch.students, newStudent];
         updatedBatch.total = updatedBatch.students.length;
-        updatedBatch.approved = updatedBatch.students.filter(s => s.status === "Approved").length;
-        updatedBatch.rejected = updatedBatch.students.filter(s => s.status === "Rejected").length;
+        updatedBatch.approved = updatedBatch.students.filter(
+          (s) => s.status === "Approved"
+        ).length;
+        updatedBatch.rejected = updatedBatch.students.filter(
+          (s) => s.status === "Rejected"
+        ).length;
         updatedBatch.rate =
           updatedBatch.students.length > 0
-            ? `${Math.round((updatedBatch.approved / updatedBatch.students.length) * 100)}%`
+            ? `${Math.round(
+                (updatedBatch.approved / updatedBatch.students.length) * 100
+              )}%`
             : "0%";
-        updatedBatch.status = updatedBatch.approved > 0 ? "Completed" : "Processing";
-  
+        updatedBatch.status =
+          updatedBatch.approved > 0 ? "Completed" : "Processing";
+
         const newBatches = [...prev];
         newBatches[batchIndex] = updatedBatch;
         return newBatches;
@@ -131,50 +138,37 @@ const App = () => {
         ];
       }
     });
-  
+
     setShowForm(false);
   };
-  
-  
+
   if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
 
   return (
-    <div style={{ display: "flex", height: "100vh", backgroundColor: "#f8fafc", overflow: "hidden" }}>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        backgroundColor: "#f8fafc",
+        overflow: "hidden",
+      }}
+    >
       <Sidebar
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         onLogout={handleLogout}
       />
 
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, height: "100vh", overflow: "hidden" }}>
-        <header
-          style={{
-            background: "#63A361",
-            color: "white",
-            padding: "12px 20px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <img
-              src="/assets/logo.png"
-              alt="Logo"
-              style={{
-                width: "50px",
-                height: "50px",
-                objectFit: "contain",
-                borderRadius: "5px",
-              }}
-            />
-            <h1 style={{ fontSize: "25px", fontWeight: "bold", margin: 0, fontFamily: "sans-serif" }}>
-              Scholarship Eligibility Prediction System
-            </h1>
-          </div>
-        </header>
-
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          minWidth: 0,
+          height: "100vh",
+          overflow: "hidden",
+        }}
+      >
         <main style={{ flex: 1, overflow: "auto" }}>
           {currentPage === "dashboard" && (
             <Dashboard batches={batches} setBatches={setBatches} />
@@ -190,16 +184,12 @@ const App = () => {
               currentBatchName={currentBatchName}
               setCurrentBatchName={setCurrentBatchName}
               onStudentAdd={handleStudentSubmit}
-            />          
+            />
           )}
 
-          {currentPage === "eligible" && (
-            <EligibleStudents batches={batches} />
-          )}
+          {currentPage === "eligible" && <EligibleStudents batches={batches} />}
 
-          {currentPage === "records" && (
-            <BatchRecords batches={batches} />
-          )}
+          {currentPage === "records" && <BatchRecords batches={batches} />}
 
           {currentPage === "analysis" && <DataAnalysis batches={batches} />}
         </main>

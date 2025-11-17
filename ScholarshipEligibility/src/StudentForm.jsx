@@ -37,13 +37,17 @@ const StudentForm = ({ onClose, onSubmit }) => {
   const programOptions = {
     CCIS: ["BSIT", "BSIS", "BSCS"],
     CHASS: ["BS-PSYCH", "BSSW", "BSS"],
-    CED: ["BEED", "BS Major in Math", "BS Major in English", "BS Major in Science", "BS Major in Filipino"],
+    CED: [
+      "BEED",
+      "BS Major in Math",
+      "BS Major in English",
+      "BS Major in Science",
+      "BS Major in Filipino",
+    ],
     CAA: ["BSA", "BSIS", "BSCS"],
     COFES: ["BSAF", "BSF", "BSES"],
     CMNS: ["BSCHEM", "BSBIO", "BSAM"],
-    CEGS: ["BSABE", "BSCE", "BSEM", "BSGE", "BSEE"
-    ],
-    
+    CEGS: ["BSABE", "BSCE", "BSEM", "BSGE", "BSEE"],
   };
 
   const handleSubmit = (e) => {
@@ -94,7 +98,6 @@ const StudentForm = ({ onClose, onSubmit }) => {
         zIndex: 1000,
         padding: "20px",
       }}
-      
     >
       <div
         style={{
@@ -115,9 +118,9 @@ const StudentForm = ({ onClose, onSubmit }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            position: "sticky",   // <-- add this
-            top: 0,               // <-- stick to the top
-            zIndex: 10,           // <-- stay above form content
+            position: "sticky", // <-- add this
+            top: 0, // <-- stick to the top
+            zIndex: 10, // <-- stay above form content
           }}
         >
           <h3 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>
@@ -138,7 +141,7 @@ const StudentForm = ({ onClose, onSubmit }) => {
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
-        <h4
+          <h4
             style={{
               backgroundColor: "#63A361",
               color: "white",
@@ -153,34 +156,87 @@ const StudentForm = ({ onClose, onSubmit }) => {
           </h4>
 
           {/* First Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
               <label style={labelStyle}>First Name *</label>
-              <input name="firstName"placeholder="Juan" value={formData.firstName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="firstName"
+                placeholder="Juan"
+                value={formData.firstName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="middleName" placeholder="Santos" value={formData.middleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="middleName"
+                placeholder="Santos"
+                value={formData.middleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name *</label>
-              <input name="lastName" placeholder="Dela Cruz"value={formData.lastName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="lastName"
+                placeholder="Dela Cruz"
+                value={formData.lastName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Name Suffix</label>
-              <input name="nameSuffix" placeholder="Jr/Sr/I/II"value={formData.nameSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="nameSuffix"
+                placeholder="Jr/Sr/I/II"
+                value={formData.nameSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
 
           {/* Second Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(5, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
               <label style={labelStyle}>School ID Number *</label>
-              <input name="schoolId" placeholder="221-02399" value={formData.schoolId} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="schoolId"
+                placeholder="221-02399"
+                value={formData.schoolId}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>College *</label>
-              <select name="college" value={formData.college} onChange={handleChange} style={inputStyle} required>
+              <select
+                name="college"
+                value={formData.college}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              >
                 <option value="">Select College</option>
                 <option value="CCIS">CCIS</option>
                 <option value="CHASS">CHASS</option>
@@ -212,7 +268,14 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Year Level *</label>
-              <input name="yearLevel" placeholder="1" value={formData.yearLevel} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="yearLevel"
+                placeholder="1"
+                value={formData.yearLevel}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>GPA *</label>
@@ -227,23 +290,49 @@ const StudentForm = ({ onClose, onSubmit }) => {
                 required
               />
             </div>
-
           </div>
-          
 
           {/* Third Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(5, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
               <label style={labelStyle}>Birthdate *</label>
-              <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} style={inputStyle} required />
+              <input
+                type="date"
+                name="birthdate"
+                value={formData.birthdate}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Age *</label>
-              <input type="number" placeholder="19" name="age" value={formData.age} onChange={handleChange} style={inputStyle} required />
+              <input
+                type="number"
+                placeholder="19"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Sex *</label>
-              <select name="sex" value={formData.sex} onChange={handleChange} style={inputStyle} required>
+              <select
+                name="sex"
+                value={formData.sex}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              >
                 <option value="">Select Sex</option>
                 <option value="Female">Female</option>
                 <option value="Male">Male</option>
@@ -251,7 +340,13 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Marital Status *</label>
-              <select name="maritalStatus" value={formData.maritalStatus} onChange={handleChange} style={inputStyle} required>
+              <select
+                name="maritalStatus"
+                value={formData.maritalStatus}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              >
                 <option value="">Select Status</option>
                 <option value="Single">Single</option>
                 <option value="Married">Married</option>
@@ -270,23 +365,41 @@ const StudentForm = ({ onClose, onSubmit }) => {
                 required
               />
             </div>
-            
           </div>
 
           {/* Fourth Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "10px",
+              marginBottom: "20px",
+            }}
+          >
             <div>
-              <label style={labelStyle}>Email Address *</label> 
-              <input type="email" placeholder="juandelacruz@gmail.com"name="email" value={formData.email} onChange={handleChange} style={inputStyle} required />
+              <label style={labelStyle}>Email Address *</label>
+              <input
+                type="email"
+                placeholder="juandelacruz@gmail.com"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Contact Number *</label>
-              <input name="contactNumber" placeholder="09123456789" value={formData.contactNumber} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="contactNumber"
+                placeholder="09123456789"
+                value={formData.contactNumber}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
-            
           </div>
-
-          
 
           {/* HOME ADDRESS */}
           <h4
@@ -300,24 +413,59 @@ const StudentForm = ({ onClose, onSubmit }) => {
               marginBottom: "15px",
             }}
           >
-          HOME ADDRESS
+            HOME ADDRESS
           </h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "20px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "20px",
+            }}
+          >
             <div>
               <label style={labelStyle}>Purok/Street *</label>
-              <input name="purokStreet" placeholder="P-19"value={formData.purokStreet} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="purokStreet"
+                placeholder="P-19"
+                value={formData.purokStreet}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Barangay *</label>
-              <input name="barangay" placeholder="San Vicente"value={formData.barangay} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="barangay"
+                placeholder="San Vicente"
+                value={formData.barangay}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>City *</label>
-              <input name="city" placeholder="Butuan City"value={formData.city} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="city"
+                placeholder="Butuan City"
+                value={formData.city}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Province *</label>
-              <input name="province" placeholder="Agusan Del Norte"value={formData.province} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="province"
+                placeholder="Agusan Del Norte"
+                value={formData.province}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
           </div>
 
@@ -335,27 +483,62 @@ const StudentForm = ({ onClose, onSubmit }) => {
           >
             FATHER'S INFORMATION
           </h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "10px",
+            }}
+          >
             <div>
               <label style={labelStyle}>First Name *</label>
-              <input name="fatherFirstName" value={formData.fatherFirstName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="fatherFirstName"
+                value={formData.fatherFirstName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="fatherMiddleName" value={formData.fatherMiddleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="fatherMiddleName"
+                value={formData.fatherMiddleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name *</label>
-              <input name="fatherLastName" value={formData.fatherLastName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="fatherLastName"
+                value={formData.fatherLastName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Suffix</label>
-              <input name="fatherSuffix" value={formData.fatherSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="fatherSuffix"
+                value={formData.fatherSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
           <div style={{ marginBottom: "20px" }}>
             <label style={labelStyle}>Father’s Occupation *</label>
-            <input name="fatherOccupation" value={formData.fatherOccupation} onChange={handleChange} style={inputStyle} required />
+            <input
+              name="fatherOccupation"
+              value={formData.fatherOccupation}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
           </div>
 
           <h4
@@ -371,28 +554,63 @@ const StudentForm = ({ onClose, onSubmit }) => {
           >
             MOTHER'S INFORMATION
           </h4>
-        
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "10px" }}>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "10px",
+            }}
+          >
             <div>
               <label style={labelStyle}>First Name *</label>
-              <input name="motherFirstName" value={formData.motherFirstName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="motherFirstName"
+                value={formData.motherFirstName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="motherMiddleName" value={formData.motherMiddleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="motherMiddleName"
+                value={formData.motherMiddleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name *</label>
-              <input name="motherLastName" value={formData.motherLastName} onChange={handleChange} style={inputStyle} required />
+              <input
+                name="motherLastName"
+                value={formData.motherLastName}
+                onChange={handleChange}
+                style={inputStyle}
+                required
+              />
             </div>
             <div>
               <label style={labelStyle}>Suffix</label>
-              <input name="motherSuffix" value={formData.motherSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="motherSuffix"
+                value={formData.motherSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
           <div style={{ marginBottom: "20px" }}>
             <label style={labelStyle}>Mother’s Occupation *</label>
-            <input name="motherOccupation" value={formData.motherOccupation} onChange={handleChange} style={inputStyle} required />
+            <input
+              name="motherOccupation"
+              value={formData.motherOccupation}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
           </div>
 
           {/* Submit Button */}
