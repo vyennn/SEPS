@@ -139,70 +139,77 @@ const App = () => {
   if (!isLoggedIn) return <LoginPage onLogin={handleLogin} />;
 
   return (
-    <div style={{ display: "flex", height: "100vh", backgroundColor: "#f8fafc", overflow: "hidden" }}>
-      <Sidebar
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        onLogout={handleLogout}
-      />
-
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, height: "100vh", overflow: "hidden" }}>
-        <header
-          style={{
-            background: "#63A361",
-            color: "white",
-            padding: "12px 20px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            <img
-              src="/assets/logo.png"
-              alt="Logo"
-              style={{
-                width: "50px",
-                height: "50px",
-                objectFit: "contain",
-                borderRadius: "5px",
-              }}
-            />
-            <h1 style={{ fontSize: "25px", fontWeight: "bold", margin: 0, fontFamily: "sans-serif" }}>
-              Scholarship Eligibility Prediction System
-            </h1>
-          </div>
-        </header>
-
-        <main style={{ flex: 1, overflow: "auto" }}>
-          {currentPage === "dashboard" && (
-            <Dashboard batches={batches} setBatches={setBatches} />
-          )}
-
-          {currentPage === "filter" && (
-            <FilterData
-              students={students}
-              setStudents={setStudents}
-              addBatch={addBatch}
-              batchNumber={batches.length + 1}
-              setBatches={setBatches}
-              currentBatchName={currentBatchName}
-              setCurrentBatchName={setCurrentBatchName}
-              onStudentAdd={handleStudentSubmit}
-            />          
-          )}
-
-          {currentPage === "eligible" && (
-            <EligibleStudents batches={batches} />
-          )}
-
-          {currentPage === "records" && (
-            <BatchRecords batches={batches} />
-          )}
-
-          {currentPage === "analysis" && <DataAnalysis batches={batches} />}
-        </main>
+    <div style={{ 
+      display: "flex", 
+      height: "100vh", 
+      backgroundColor: "#f8fafc", 
+      overflow: "hidden" 
+      }}
+    >
+    <Sidebar
+      currentPage={currentPage}
+      setCurrentPage={setCurrentPage}
+      onLogout={handleLogout}
+    />
+    <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0, height: "100vh", overflow: "hidden" }}>
+    <header style={{ background: "#63A361", color: "white", padding: "12px 20px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", position: "sticky",
+        top: 0,
+        zIndex: 10,
+      }}
+    >
+    <div style={{ 
+      display: "flex", 
+      alignItems: "center", 
+      gap: "4px" 
+      }}
+    >
+    <img
+      src="/assets/logo.png"
+      alt="Logo"
+      style={{
+        width: "50px",
+        height: "50px",
+        objectFit: "contain",
+        borderRadius: "5px",
+        }}
+        />
+      <h1 style={{ 
+        fontSize: "25px", 
+        fontWeight: "bold", 
+        margin: 0, 
+        fontFamily: "sans-serif" 
+      }}>
+        Scholarship Eligibility Prediction System
+      </h1>
+    </div>
+  </header>
+  <main style={{ 
+    flex: 1, 
+    overflow: "auto" 
+  }}>
+  {currentPage === "dashboard" && (
+    <Dashboard batches={batches} setBatches={setBatches} />
+  )}
+  {currentPage === "filter" && (
+    <FilterData
+      students={students}
+      setStudents={setStudents}
+      addBatch={addBatch}
+      batchNumber={batches.length + 1}
+      setBatches={setBatches}
+      currentBatchName={currentBatchName}
+      setCurrentBatchName={setCurrentBatchName}
+      onStudentAdd={handleStudentSubmit}
+    />          
+  )}
+  {currentPage === "eligible" && (
+    <EligibleStudents batches={batches} />
+  )}
+  {currentPage === "records" && (
+    <BatchRecords batches={batches} />
+  )}
+  {currentPage === "analysis" && <DataAnalysis batches={batches} />}
+  </main>
       </div>
 
       {showForm && (

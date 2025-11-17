@@ -334,20 +334,60 @@ const BatchRecords = ({ batches = [] }) => {
   };
 
   return (
-    <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column", overflow: "hidden", maxWidth: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 5 }}>
-        <h2 style={{ fontSize: 24, color: "#1f2937", textAlign: "center", fontFamily: "sans-serif", flex: 1 }}>
-          BATCH RECORDS
-        </h2>
-      </div>
-      <p style={{ color: "#666", marginBottom: 10,fontSize: 13 }}>
-        View, search, and export complete student records by batch
+    <div style={{ 
+      padding: 20, 
+      flex: 1,
+      display: "flex", 
+      flexDirection: "column", 
+      overflow: "hidden",
+      maxWidth: "100%" 
+      }}
+    >
+    <div style={{ 
+      display: "flex", 
+      justifyContent: "space-between", 
+      alignItems: "center", 
+      marginBottom: 5 
+      }}
+    >
+    <h2 style={{ 
+      fontSize: 24, 
+      color: "#1f2937", 
+      textAlign: "center", 
+      fontFamily: "sans-serif", 
+      flex: 1 
+      }}
+    >
+    BATCH RECORDS
+    </h2>
+    </div>
+      <p style={{ 
+        color: "#666", 
+        marginBottom: 10,
+        fontSize: 13 
+      }}>
+      View, search, and export complete student records by batch
       </p>
-
-
-      <div style={{ background: "white", borderRadius: 10, padding: 20, boxShadow: "0 2px 5px rgba(0,0,0,0.1)", marginBottom: 15, border: "2px solid #63A361", minWidth: 0 }}>
-        <div style={{ display: "flex", gap: 15, flexWrap: "wrap", marginBottom: 15 }}>
-          <div style={{ flex: 1, minWidth: 180 }}>
+      
+      <div style={{ 
+        background: "white", 
+        borderRadius: 10, 
+        padding: 20, 
+        boxShadow: "0 2px 5px rgba(0,0,0,0.1)", 
+        marginBottom: 15, 
+        border: "2px solid #63A361", 
+        minWidth: 0 
+      }}
+      >
+      <div style={{
+        display: "flex", 
+        gap: 15, 
+        flexWrap: "wrap", 
+        marginBottom: 15 
+      }}
+      >
+      <div style={{ 
+        flex: 1, minWidth: 180 }}>
             <label style={{ display: "block", fontWeight: "bold", color: "#374151", marginBottom: 8, fontSize: 13 }}>
               Select Batch
             </label>

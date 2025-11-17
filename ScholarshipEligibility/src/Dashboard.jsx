@@ -2,7 +2,13 @@
 
   const Dashboard = ({ batches, setBatches }) => {
     // Automatically compute totals whenever batches change
-    const { totalApproved, totalRejected, totalStudents, processedBatches, overallRate } = useMemo(() => {
+    const { 
+      totalApproved, 
+      totalRejected, 
+      totalStudents, 
+      processedBatches, 
+      overallRate 
+    } = useMemo(() => {
       const totalApproved = batches.reduce((sum, b) => sum + b.approved, 0);
       const totalRejected = batches.reduce((sum, b) => sum + b.rejected, 0);
       const totalStudents = batches.reduce((sum, b) => sum + b.total, 0);
@@ -15,7 +21,13 @@
         return { ...b, rate };
       });
 
-      return { totalApproved, totalRejected, totalStudents, processedBatches, overallRate };
+      return { 
+        totalApproved, 
+        totalRejected, 
+        totalStudents, 
+        processedBatches, 
+        overallRate 
+      };
     }, [batches]);
 
     const handleRemoveBatch = (index) => {
@@ -25,24 +37,72 @@
     };
 
     return (
-      <div style={{ padding: "20px", backgroundColor: "#f8fafc", flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-        <h2 style={{ fontSize: "24px", color: "#1f2937", marginBottom: "5px", textAlign: "center", fontFamily: "sans-serif" }}>
+      <div style={{ 
+        padding: "20px", 
+        backgroundColor: "#f8fafc", 
+        flex: 1, 
+        display: "flex", 
+        flexDirection: "column", 
+        overflow: "hidden" 
+      }}>
+        <h2 style={{ 
+          fontSize: "24px", 
+          color: "#1f2937", 
+          marginBottom: "5px", 
+          textAlign: "center", 
+          fontFamily: "sans-serif" 
+        }}>
           DASHBOARD
         </h2>
-
         {/* STATISTICS PANEL */}
-        <div style={{ backgroundColor: "#dbeafe", borderRadius: "5px", padding: "15px", marginBottom: "20px" }}>
-          <h4 style={{ fontWeight: "bold", color: "#1e40af", marginBottom: "10px", fontSize: "13px" }}>
+        <div style={{ 
+          backgroundColor: "#dbeafe", 
+          borderRadius: "5px", 
+          padding: "15px", 
+          marginBottom: "20px" 
+        }}>
+          <h4 style={{ 
+            fontWeight: "bold", 
+            color: "#1e40af", 
+            marginBottom: "10px", 
+            fontSize: "13px" 
+          }}>
             Batch Statistics Summary
           </h4>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px" }}>
-            <div style={{ textAlign: "center" }}>
-              <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Total Batches</p>
-              <p style={{ fontSize: "18px", fontWeight: "bold", color: "#3b82f6" }}>{batches.length}</p>
-            </div>
-            <div style={{ textAlign: "center" }}>
-              <p style={{ color: "#666", fontSize: "11px", margin: 0 }}>Total Students</p>
+          <div style={{ 
+            display: "grid", 
+            gridTemplateColumns: "repeat(5, 1fr)", 
+            gap: "10px" 
+          }}
+          >
+          <div style={{ 
+            textAlign: "center" 
+            }}>
+            <p style={{ 
+              color: "#666", 
+              fontSize: "11px", 
+              margin: 0 
+              }}>
+                Total Batches
+                </p>
+              <p style={{ 
+                fontSize: "18px", 
+                fontWeight: "bold", 
+                color: "#3b82f6" 
+                }}
+              >{batches.length}</p>
+          </div>
+            <div style={{ 
+              textAlign: "center" 
+              }}>
+              <p style={{ 
+                color: "#666", 
+                fontSize: "11px", 
+                margin: 0 
+                }}>
+                Total Students
+                </p>
               <p style={{ fontSize: "18px", fontWeight: "bold", color: "#3b82f6" }}>{totalStudents}</p>
             </div>
             <div style={{ textAlign: "center" }}>
