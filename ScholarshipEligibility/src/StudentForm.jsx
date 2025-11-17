@@ -37,13 +37,17 @@ const StudentForm = ({ onClose, onSubmit }) => {
   const programOptions = {
     CCIS: ["BSIT", "BSIS", "BSCS"],
     CHASS: ["BS-PSYCH", "BSSW", "BSS"],
-    CED: ["BEED", "BS Major in Math", "BS Major in English", "BS Major in Science", "BS Major in Filipino"],
+    CED: [
+      "BEED",
+      "BS Major in Math",
+      "BS Major in English",
+      "BS Major in Science",
+      "BS Major in Filipino",
+    ],
     CAA: ["BSA", "BSIS", "BSCS"],
     COFES: ["BSAF", "BSF", "BSES"],
     CMNS: ["BSCHEM", "BSBIO", "BSAM"],
-    CEGS: ["BSABE", "BSCE", "BSEM", "BSGE", "BSEE"
-    ],
-    
+    CEGS: ["BSABE", "BSCE", "BSEM", "BSGE", "BSEE"],
   };
 
   const handleSubmit = (e) => {
@@ -94,7 +98,6 @@ const StudentForm = ({ onClose, onSubmit }) => {
         zIndex: 1000,
         padding: "20px",
       }}
-      
     >
       <div
         style={{
@@ -115,9 +118,9 @@ const StudentForm = ({ onClose, onSubmit }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            position: "sticky",   // <-- add this
-            top: 0,               // <-- stick to the top
-            zIndex: 10,           // <-- stay above form content
+            position: "sticky", // <-- add this
+            top: 0, // <-- stick to the top
+            zIndex: 10, // <-- stay above form content
           }}
         >
           <h3 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>
@@ -138,7 +141,7 @@ const StudentForm = ({ onClose, onSubmit }) => {
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: "20px" }}>
-        <h4
+          <h4
             style={{
               backgroundColor: "#63A361",
               color: "white",
@@ -153,7 +156,14 @@ const StudentForm = ({ onClose, onSubmit }) => {
           </h4>
 
           {/* First Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
             <label style={labelStyle}>
               First Name <span style={{ color: "red" }}>*</span>
@@ -162,7 +172,13 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="middleName" placeholder="Santos" value={formData.middleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="middleName"
+                placeholder="Santos"
+                value={formData.middleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name <span style={{ color: "red" }}>* </span> </label>
@@ -170,12 +186,25 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Name Suffix</label>
-              <input name="nameSuffix" placeholder="Jr/Sr/I/II"value={formData.nameSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="nameSuffix"
+                placeholder="Jr/Sr/I/II"
+                value={formData.nameSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
 
           {/* Second Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(5, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
               <label style={labelStyle}>School ID Number <span style={{ color: "red" }}>*</span></label>
               <input name="schoolId" placeholder="221-02399" value={formData.schoolId} onChange={handleChange} style={inputStyle} required />
@@ -229,12 +258,17 @@ const StudentForm = ({ onClose, onSubmit }) => {
                 required
               />
             </div>
-
           </div>
-          
 
           {/* Third Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "10px", marginBottom: "15px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(5, 1fr)",
+              gap: "10px",
+              marginBottom: "15px",
+            }}
+          >
             <div>
               <label style={labelStyle}>Birthdate <span style={{ color: "red" }}>*</span></label>
               <input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} style={inputStyle} required />
@@ -272,11 +306,17 @@ const StudentForm = ({ onClose, onSubmit }) => {
                 required
               />
             </div>
-            
           </div>
 
           {/* Fourth Layer */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "10px",
+              marginBottom: "20px",
+            }}
+          >
             <div>
               <label style={labelStyle}>Email Address <span style={{ color: "red" }}>*</span></label> 
               <input type="email" placeholder="juandelacruz@gmail.com"name="email" value={formData.email} onChange={handleChange} style={inputStyle} required />
@@ -285,10 +325,7 @@ const StudentForm = ({ onClose, onSubmit }) => {
               <label style={labelStyle}>Contact Number <span style={{ color: "red" }}>*</span></label>
               <input name="contactNumber" placeholder="09123456789" value={formData.contactNumber} onChange={handleChange} style={inputStyle} required />
             </div>
-            
           </div>
-
-          
 
           {/* HOME ADDRESS */}
           <h4
@@ -302,9 +339,16 @@ const StudentForm = ({ onClose, onSubmit }) => {
               marginBottom: "15px",
             }}
           >
-          HOME ADDRESS
+            HOME ADDRESS
           </h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "20px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "20px",
+            }}
+          >
             <div>
               <label style={labelStyle}>Purok/Street <span style={{ color: "red" }}>*</span></label>
               <input name="purokStreet" placeholder="P-19"value={formData.purokStreet} onChange={handleChange} style={inputStyle} required />
@@ -337,14 +381,26 @@ const StudentForm = ({ onClose, onSubmit }) => {
           >
             FATHER'S INFORMATION
           </h4>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "10px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "10px",
+            }}
+          >
             <div>
               <label style={labelStyle}>First Name <span style={{ color: "red" }}>*</span></label>
               <input name="fatherFirstName" value={formData.fatherFirstName} onChange={handleChange} style={inputStyle} required />
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="fatherMiddleName" value={formData.fatherMiddleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="fatherMiddleName"
+                value={formData.fatherMiddleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name <span style={{ color: "red" }}>*</span></label>
@@ -352,7 +408,12 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Suffix</label>
-              <input name="fatherSuffix" value={formData.fatherSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="fatherSuffix"
+                value={formData.fatherSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
           <div style={{ marginBottom: "20px" }}>
@@ -373,15 +434,27 @@ const StudentForm = ({ onClose, onSubmit }) => {
           >
             MOTHER'S INFORMATION
           </h4>
-        
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "10px" }}>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "10px",
+              marginBottom: "10px",
+            }}
+          >
             <div>
               <label style={labelStyle}>First Name <span style={{ color: "red" }}>*</span></label>
               <input name="motherFirstName" value={formData.motherFirstName} onChange={handleChange} style={inputStyle} required />
             </div>
             <div>
               <label style={labelStyle}>Middle Name</label>
-              <input name="motherMiddleName" value={formData.motherMiddleName} onChange={handleChange} style={inputStyle} />
+              <input
+                name="motherMiddleName"
+                value={formData.motherMiddleName}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
             <div>
               <label style={labelStyle}>Last Name <span style={{ color: "red" }}>*</span></label>
@@ -389,7 +462,12 @@ const StudentForm = ({ onClose, onSubmit }) => {
             </div>
             <div>
               <label style={labelStyle}>Suffix</label>
-              <input name="motherSuffix" value={formData.motherSuffix} onChange={handleChange} style={inputStyle} />
+              <input
+                name="motherSuffix"
+                value={formData.motherSuffix}
+                onChange={handleChange}
+                style={inputStyle}
+              />
             </div>
           </div>
           <div style={{ marginBottom: "20px" }}>

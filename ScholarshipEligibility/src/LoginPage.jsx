@@ -1,5 +1,6 @@
 import { useState } from "react";
 import bgImage from "./assets/PIC1.jpg";
+import logo from "./assets/logo.png";
 
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState("");
@@ -18,132 +19,195 @@ const LoginPage = ({ onLogin }) => {
     <div
       style={{
         minHeight: "100vh",
+        width: "100%",
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#ECFAE8",
+        justifyContent: "center",
+
+        // STRONGER GREEN TINT
+        backgroundImage: `linear-gradient(rgba(8, 80, 8, 0.35), rgba(8, 80, 8, 0.35)), url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+
         fontFamily: "Arial, sans-serif",
+        padding: "40px",
       }}
     >
-      {/* Main container */}
+      {/* LEFT SIDE TEXT */}
       <div
         style={{
-          display: "flex",
-          width: "900px",
-          height: "550px",
-          borderRadius: "4px",
-          overflow: "hidden",
-          boxShadow: "0 10px 40px rgba(0, 0, 0, 0.1)",
-          backgroundColor: "white",
+          flex: 1,
+          color: "white",
+          paddingLeft: "60px",
+          transform: "translateY(-60px)",
         }}
       >
-        {/* Left side - Login form */}
-        <div
+        <h1
           style={{
-            flex: 1,
-            padding: "60px 50px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            fontSize: "42px",
+            fontWeight: "800",
+            color: "#0d7515ff",
+            maxWidth: "500px",
+            fontFamily: "Poppins, sans-serif",
+            letterSpacing: "1px",
+            lineHeight: "1.2",
+            marginBottom: "18px",
           }}
         >
+          SCHOLARSHIP ELIGIBILITY <br />
+          PREDICTION SYSTEM
+        </h1>
+
+        <p
+          style={{
+            maxWidth: "430px",
+            fontSize: "20px",
+            lineHeight: "1.7",
+            color: "white",
+            fontFamily: "Poppins, sans-serif",
+            marginTop: "10px",
+            textShadow: "0px 0px 6px rgba(0,0,0,0.5)",
+          }}
+        >
+          Log in and access the system that helps predict scholarship
+          eligibility for students of Caraga State University- Main Campus.
+        </p>
+      </div>
+
+      {/* RIGHT SIDE – GLASS BOX */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "450px", // WIDER BOX
+            padding: "40px 35px",
+            borderRadius: "20px",
+            backdropFilter: "blur(22px)",
+            background: "rgba(255, 255, 255, 0.20)",
+            boxShadow: "0 8px 30px rgba(0,0,0,0.28)",
+            border: "2px solid rgba(255, 255, 255, 0.4)",
+            textAlign: "center",
+            height: "auto", // Fit height to content
+          }}
+        >
+          {/* LOGO */}
+          <img
+            src={logo}
+            alt="logo"
+            style={{
+              width: "90px",
+              marginBottom: "10px",
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              filter: "brightness(1.3) contrast(1.3)",
+            }}
+          />
+
           <h2
             style={{
-              color: "#63A361",
+              color: "#66C06E",
               fontSize: "20px",
-              fontWeight: "bold",
-              textAlign: "center",
-              marginBottom: "10px",
+              fontWeight: "700",
+              marginBottom: "4px",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
             WELCOME TO
           </h2>
+
           <h1
             style={{
-              color: "#111827",
-              fontSize: "28px",
-              fontWeight: "bold",
-              textAlign: "center",
-              marginBottom: "30px",
+              color: "white",
+              fontSize: "30px",
+              fontWeight: "900",
+              marginBottom: "25px",
+              letterSpacing: "1px",
+              fontFamily: "Poppins, sans-serif",
             }}
           >
-            Scholarship Eligibility Prediction System
+            SEPS
           </h1>
 
-          <form onSubmit={handleLogin}>
-            <div style={{ marginBottom: "20px" }}>
-              <label
-                style={{
-                  display: "block",
-                  color: "#333",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                  fontSize: "14px",
-                }}
-              >
-                Username
-              </label>
-              <input
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "8px",
-                  border: "1px solid #d1d5db",
-                  outline: "none",
-                  fontSize: "14px",
-                }}
-              />
-            </div>
+          {/* FORM */}
+          <form onSubmit={handleLogin} style={{ textAlign: "left" }}>
+            <label
+              style={{
+                color: "white",
+                fontWeight: "600",
+                fontSize: "14px",
+                fontFamily: "Poppins, sans-serif",
+              }}
+            >
+              Username
+            </label>
 
-            <div style={{ marginBottom: "20px" }}>
-              <label
-                style={{
-                  display: "block",
-                  color: "#333",
-                  fontWeight: "600",
-                  marginBottom: "8px",
-                  fontSize: "14px",
-                }}
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  borderRadius: "8px",
-                  border: "1px solid #d1d5db",
-                  outline: "none",
-                  fontSize: "14px",
-                }}
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "12px 15px",
+                borderRadius: "10px",
+                marginBottom: "18px",
+                border: "1px solid rgba(255,255,255,0.5)",
+                background: "rgba(255,255,255,0.8)",
+                outline: "none",
+                fontSize: "14px",
+              }}
+            />
+
+            <label
+              style={{
+                color: "white",
+                fontWeight: "600",
+                fontSize: "14px",
+                fontFamily: "Poppins, sans-serif",
+              }}
+            >
+              Password
+            </label>
+
+            <input
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "12px 15px",
+                borderRadius: "10px",
+                marginBottom: "22px",
+                border: "1px solid rgba(255,255,255,0.5)",
+                background: "rgba(255,255,255,0.8)",
+                outline: "none",
+                fontSize: "14px",
+              }}
+            />
 
             <button
               type="submit"
               style={{
                 width: "100%",
-                backgroundColor: "#63A361",
-                color: "white",
-                fontWeight: "600",
                 padding: "12px",
-                borderRadius: "8px",
+                borderRadius: "10px",
+                backgroundColor: "#62A55B",
+                color: "white",
                 border: "none",
-                fontSize: "14px",
+                fontSize: "15px",
+                fontWeight: "600",
                 cursor: "pointer",
-                marginTop: "10px",
                 transition: "0.3s",
               }}
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#658C58")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#63A361")}
+              onMouseOver={(e) => (e.target.style.backgroundColor = "#4F874A")}
+              onMouseOut={(e) => (e.target.style.backgroundColor = "#62A55B")}
             >
               Sign In
             </button>
@@ -152,59 +216,13 @@ const LoginPage = ({ onLogin }) => {
           <p
             style={{
               textAlign: "center",
-              color: "#666",
-              fontSize: "13px",
-              marginTop: "20px",
+              marginTop: "15px",
+              fontSize: "12px",
+              color: "white",
+              opacity: 0.85,
             }}
           >
             Demo credentials: admin / admin123
-          </p>
-        </div>
-
-        {/* Right side - Image overlay */}
-        <div
-          style={{
-            flex: 1,
-            backgroundImage: `linear-gradient(rgba(62, 177, 105, 0.8), rgba(44, 89, 59, 0.8)), url(${bgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            color: "white",
-            padding: "40px",
-            textAlign: "center",
-          }}
-        >
-          {/* Logo */}
-          <img
-            src="/assets/logo.png"
-            alt="SEPS Logo"
-            style={{
-              width: "150px",
-              height: "150px",
-              marginBottom: "0px",
-              borderRadius: "10px",
-            }}
-          />
-
-          <h1
-            style={{
-              fontSize: "36px",
-              fontWeight: "bold",
-              marginBottom: "10px",
-            }}
-          >
-            SEPS
-          </h1>
-          <p style={{ 
-            fontSize: "15px", 
-            lineHeight: "1.6", 
-            maxWidth: "300px" 
-            }}>
-            Log in and be part of the system that makes scholarship prediction
-            easier for students of Caraga State University.
           </p>
         </div>
       </div>

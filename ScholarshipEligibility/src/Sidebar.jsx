@@ -1,7 +1,21 @@
 import { useState } from "react";
-import { FiArrowLeft, FiHome, FiFilter, FiUserCheck, FiBarChart2, FiDatabase } from "react-icons/fi";
+import {
+  FiArrowLeft,
+  FiHome,
+  FiFilter,
+  FiUserCheck,
+  FiBarChart2,
+  FiDatabase,
+} from "react-icons/fi";
 
-// Profile picture URLs from the public/assets folder
+/**
+ * Slim, inspo-matching Sidebar
+ * - Keeps your profilePics array and logic
+ * - Preserves currentPage, setCurrentPage, onLogout props/behavior
+ * - Slim width (220px), dark-green background, white rounded profile card
+ * - Yellow active highlight and subtle hover transitions
+ */
+
 const profilePics = [
   "/assets/PIC2.jpg",
   "/assets/PIC3.jpg",
@@ -12,92 +26,184 @@ const profilePics = [
   "/assets/PIC8.jpg",
 ];
 
+const menuItems = [
+  { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
+  { id: "filter", label: "Filter Data", icon: <FiFilter /> },
+  { id: "eligible", label: "Eligible Students", icon: <FiUserCheck /> },
+  { id: "records", label: "Batch Records", icon: <FiDatabase /> },
+  { id: "analysis", label: "Data Analysis", icon: <FiBarChart2 /> },
+];
+
 const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
   const [selectedPic, setSelectedPic] = useState(profilePics[0]);
   const [showPicOptions, setShowPicOptions] = useState(false);
+  const [hoveredMenu, setHoveredMenu] = useState(null);
+  const [logoutHover, setLogoutHover] = useState(false);
 
-  const menuItems = [
-    { id: "dashboard", label: "Dashboard", icon: <FiHome /> },
-    { id: "filter", label: "Filter Data", icon: <FiFilter /> },
-    { id: "eligible", label: "Eligible Students", icon: <FiUserCheck /> },
-    { id: "records", label: "Batch Records", icon: <FiDatabase /> },
-    { id: "analysis", label: "Data Analysis", icon: <FiBarChart2 /> },
-  ];
+  // Colors & sizes (kept as JS constants for easy tweaks)
+  const COLORS = {
+    greenDark: "#0B4F36",
+    yellowAccent: "#F9C300",
+    white: "#FFFFFF",
+    textDark: "#1F2937",
+    mutedText: "#6B7280",
+    menuBgHover: "rgba(255,255,255,0.12)",
+    menuBgActive: "#F9C300",
+  };
+
+  const styles = {
+    container: {
+      width: 220,
+      minWidth: 220,
+      maxWidth: 220,
+      height: "100vh",
+      background: COLORS.greenDark,
+      padding: 20,
+      boxSizing: "border-box",
+      display: "flex",
+      flexDirection: "column",
+      gap: 20,
+      position: "relative",
+      overflow: "hidden",
+      flexShrink: 0,
+      fontFamily:
+        "Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+    },
+    profileCard: {
+      background: COLORS.white,
+      padding: 16,
+      borderRadius: 16,
+      textAlign: "center",
+      boxShadow: "0 6px 18px rgba(0,0,0,0.12)",
+    },
+    avatarWrap: {
+      width: 68,
+      height: 68,
+      borderRadius: "50%",
+      overflow: "hidden",
+      margin: "0 auto 10px",
+      border: `3px solid ${COLORS.yellowAccent}`,
+      cursor: "pointer",
+    },
+    avatarImg: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+    },
+    adminText: {
+      color: COLORS.textDark,
+      fontWeight: 700,
+      fontSize: 15,
+      margin: 0,
+    },
+    roleText: {
+      color: COLORS.mutedText,
+      fontSize: 12,
+      margin: "6px 0 0",
+    },
+    picsGrid: {
+      display: "flex",
+      justifyContent: "center",
+      flexWrap: "wrap",
+      gap: 8,
+      marginTop: 12,
+    },
+    picSmall: (isSelected) => ({
+      width: 36,
+      height: 36,
+      borderRadius: "50%",
+      overflow: "hidden",
+      border: isSelected
+        ? `2px solid ${COLORS.yellowAccent}`
+        : "1px solid rgba(0,0,0,0.08)",
+      cursor: "pointer",
+    }),
+    nav: {
+      flex: 1,
+      overflowY: "auto",
+      paddingRight: 6,
+      display: "flex",
+      flexDirection: "column",
+      gap: 8,
+    },
+    menuTitle: {
+      color: "rgba(255,255,255,0.92)",
+      fontSize: 11,
+      fontWeight: 700,
+      letterSpacing: 0.8,
+      textTransform: "uppercase",
+      paddingLeft: 6,
+    },
+    menuButton: (active, hovered) => ({
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      padding: "10px 12px",
+      borderRadius: 12,
+      background: active
+        ? COLORS.menuBgActive
+        : hovered
+        ? COLORS.menuBgHover
+        : "transparent",
+      color: active ? COLORS.textDark : COLORS.white,
+      border: "none",
+      cursor: "pointer",
+      textAlign: "left",
+      fontSize: 14,
+      fontWeight: active ? 700 : 600,
+      transition: "all 180ms ease",
+      transform: hovered && !active ? "translateX(4px)" : "none",
+      boxShadow: active ? "0 6px 14px rgba(0,0,0,0.12)" : "none",
+    }),
+    iconSpan: (active) => ({
+      fontSize: 18,
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
+      width: 26,
+      height: 26,
+      color: active ? COLORS.textDark : COLORS.white,
+    }),
+    logoutWrap: {
+      paddingTop: 6,
+      borderTop: "1px solid rgba(255,255,255,0.06)",
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+    },
+    logoutButton: (hovered) => ({
+      width: "100%",
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      padding: "10px 12px",
+      color: COLORS.white,
+      border: "none",
+      background: hovered ? "rgba(255,255,255,0.08)" : "transparent",
+      cursor: "pointer",
+      fontWeight: 700,
+      borderRadius: 10,
+      transition: "background 150ms ease",
+    }),
+  };
 
   return (
-    <div
-      style={{
-        width: "260px",
-        minWidth: "260px",
-        maxWidth: "260px",
-        background: "linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 100%)",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        borderRight: "1px solid #d0e6d0",
-        boxShadow: "2px 0 6px rgba(0,0,0,0.05)",
-        fontFamily: "'Poppins', sans-serif",
-        flexShrink: 0,
-      }}
-    >
-      {/* === HEADER / PROFILE === */}
-      <div
-        style={{
-          padding: "25px 15px",
-          borderBottom: "1px solid rgba(0,0,0,0.05)",
-          textAlign: "center",
-          flexShrink: 0,
-        }}
-      >
-        {/* Profile Picture */}
+    <aside style={styles.container} aria-label="Sidebar">
+      {/* PROFILE CARD */}
+      <div style={styles.profileCard}>
         <div
-          style={{
-            width: "75px",
-            height: "75px",
-            borderRadius: "50%",
-            overflow: "hidden",
-            margin: "0 auto 10px auto",
-            border: "2px solid #4caf50",
-            cursor: "pointer",
-            transition: "0.3s",
-          }}
-          onClick={() => setShowPicOptions(!showPicOptions)}
+          style={styles.avatarWrap}
+          onClick={() => setShowPicOptions((s) => !s)}
+          title="Change profile picture"
         >
-          <img
-            src={selectedPic}
-            alt="Profile"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              transition: "0.3s",
-            }}
-          />
+          <img src={selectedPic} alt="profile" style={styles.avatarImg} />
         </div>
 
-        <p
-          style={{
-            color: "#2f5d3f",
-            fontWeight: "600",
-            fontSize: "14px",
-            margin: "5px 0 0 0",
-            letterSpacing: "0.5px",
-          }}
-        >
-          ADMIN
-        </p>
+        <h3 style={styles.adminText}>ADMIN</h3>
 
-        {/* Picture Selection */}
         {showPicOptions && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "8px",
-              marginTop: "12px",
-            }}
-          >
+          <div style={styles.picsGrid}>
             {profilePics.map((pic, idx) => (
               <div
                 key={idx}
@@ -105,26 +211,13 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
                   setSelectedPic(pic);
                   setShowPicOptions(false);
                 }}
-                style={{
-                  width: "38px",
-                  height: "38px",
-                  borderRadius: "50%",
-                  overflow: "hidden",
-                  border:
-                    selectedPic === pic
-                      ? "2px solid #4caf50"
-                      : "1px solid #d1d5db",
-                  cursor: "pointer",
-                }}
+                style={styles.picSmall(selectedPic === pic)}
+                title={`Profile ${idx + 1}`}
               >
                 <img
                   src={pic}
-                  alt={`Profile ${idx}`}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
+                  alt={`profile-${idx}`}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
               </div>
             ))}
@@ -132,76 +225,42 @@ const Sidebar = ({ currentPage, setCurrentPage, onLogout }) => {
         )}
       </div>
 
-      {/* === MENU === */}
-      <nav 
-        style={{ 
-          flex: 1, 
-          padding: "20px 0",
-          overflowY: "auto",
-          overflowX: "hidden"
-        }}
-      >
-        {menuItems.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => setCurrentPage(item.id)}
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              padding: "12px 22px",
-              color: currentPage === item.id ? "#2f5d3f" : "#3b3b3b",
-              background:
-                currentPage === item.id ? "rgba(99,163,97,0.2)" : "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: currentPage === item.id ? "600" : "500",
-              transition: "0.3s",
-              textAlign: "left",
-            }}
-          >
-            <span style={{ fontSize: "17px" }}>{item.icon}</span>
-            <span>{item.label}</span>
-          </button>
-        ))}
+      {/* NAV */}
+      <nav style={styles.nav} aria-label="Main menu">
+        <div style={styles.menuTitle}>Main</div>
+
+        {menuItems.map((item) => {
+          const active = currentPage === item.id;
+          const hovered = hoveredMenu === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setCurrentPage(item.id)}
+              onMouseEnter={() => setHoveredMenu(item.id)}
+              onMouseLeave={() => setHoveredMenu(null)}
+              style={styles.menuButton(active, hovered)}
+              aria-current={active ? "page" : undefined}
+            >
+              <span style={styles.iconSpan(active)}>{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          );
+        })}
       </nav>
 
-      {/* === LOGOUT === */}
-      <div
-        style={{
-          padding: "15px 20px",
-          borderTop: "1px solid rgba(0,0,0,0.05)",
-          backgroundColor: "rgba(255,255,255,0.4)",
-          flexShrink: 0,
-        }}
-      >
+      {/* LOGOUT */}
+      <div style={styles.logoutWrap}>
         <button
           onClick={onLogout}
-          style={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "10px 15px",
-            color: "#2f5d3f",
-            border: "none",
-            background: "transparent",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: "600",
-            borderRadius: "8px",
-            transition: "0.2s",
-          }}
-          onMouseEnter={(e) => (e.target.style.background = "#e6f3e7")}
-          onMouseLeave={(e) => (e.target.style.background = "transparent")}
+          onMouseEnter={() => setLogoutHover(true)}
+          onMouseLeave={() => setLogoutHover(false)}
+          style={styles.logoutButton(logoutHover)}
         >
           <FiArrowLeft />
-          Log Out
+          <span style={{ fontSize: 13 }}>Log Out</span>
         </button>
       </div>
-    </div>
+    </aside>
   );
 };
 
